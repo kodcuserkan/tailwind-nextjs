@@ -1,3 +1,12 @@
+Important
+Before start you have to get your ```PIXABAY_API``` and put it under components/pixabay.js like below: 
+
+```
+module.exports = {
+    PIXABAY_API : "14381235-58233c6cb28a37c4808b12139"
+}
+```
+
 # Next.js
 
 To add Tailwind to a Next (^9.2.0) project, start by installing `tailwindcss`, `postcss-import` and `autoprefixer`:
