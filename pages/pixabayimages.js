@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { PIXABAY_API } from "../components/pixabay";
 import axios from "axios";
+import ModalImage from "./modal";
+
 
 const MyButton = ({ name, color, disabledvalue }) => (
   <button
@@ -16,6 +18,9 @@ function Pixabayimages() {
   const [searchText, setsearchText] = useState("");
   const [count, setcount] = useState(0);
   const [results, setresults] = useState([]);
+  const [isopen, setisOpen] = useState(false);
+  const [item, setitem] = useState(null);
+  
 
   const getImagesFromPixabay = async () => {
     let query =
@@ -59,10 +64,10 @@ function Pixabayimages() {
   }, [count, searchText]);
 
   return (
-    <div className="m-3 p-2 mr-3 block border shadow-xl rounded-lg border-gray-800 w-full overflow-hidden ">
+    <div className="mr-3 ml-3 mt-3 mb-3 block border shadow-xl rounded-lg border-gray-800 w-98 overflow-hidden ">
       <div className="inputsdiv my-1 mx-2 flex flex-row shadow-sm overflow-hidden ">
         <div className="mx-3 overflow-hidden">
-          <label htmlFor="inputcount">Kaç adet resim gelsin?</label>
+          <label htmlFor="inputcount">Miktar : </label>
           <input
             type="number"
             id="inputcount"
@@ -95,9 +100,13 @@ function Pixabayimages() {
                 <div className="flex w-50 flex-col">
                   <div className="imagediv w-50 bg-gray-500 self-center align-middle block overflow-hidden ">
                     <img
-                      className="block mx-auto lg:mx-0 lg:flex-shrink-0 h-30 lg:h-24"
+                      className="block mx-auto lg:mx-0 lg:flex-shrink-0 h-30 xl:h-32 md:h-24 sm:h-12"
                       src={result.largeImageURL}
                       alt={result.user}
+                      onClick={() => {
+                        setitem(result);  
+                        setisOpen(prev => !prev);
+                      }}
                     />
                   </div>
                   <div className="flex flex-row flex-wrap m-1">
@@ -108,7 +117,7 @@ function Pixabayimages() {
                         result.tags.length > 0 &&
                         result.tags.split(",").map((tag, index) => (
                           <h5
-                            className="text-xs p-2 mx-2 h-auto  rounded-lg border border-gray-700 max-w-xs"
+                            className="text-xs p-1 mx-2 h-auto  rounded-lg border border-gray-700 max-w-xs"
                             key={index}
                           >
                             {tag.trim()}
@@ -127,6 +136,7 @@ function Pixabayimages() {
           </h1>
         )}
       </div>
+      { count > 0 && searchText.length > 0 && <ModalImage isOpen={isopen} item={item} /> }
     </div>
   );
 }
